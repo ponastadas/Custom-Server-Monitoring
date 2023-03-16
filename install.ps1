@@ -3,7 +3,7 @@
 $script_path = "/home/monitoring/output.ps1"
 
 # Download the script from GitHub
-$url = "add github url to output.ps1"
+$url = "https://raw.githubusercontent.com/ponastadas/Custom-Server-Monitoring/main/output.ps1"
 $output_path = "/home/monitoring/output.ps1"
 Invoke-WebRequest -Uri $url -OutFile $output_path
 
