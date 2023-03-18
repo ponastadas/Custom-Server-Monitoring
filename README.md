@@ -18,6 +18,7 @@ You can view the log file to see the data that's been collected: <br>
 sudo tail -f /var/log/server-monitor.log
 
 #### You can preview the Monitoring tool [here](http://139.162.167.57:8080). <br/>
+On the demo page You can see how the output may look like.
 
 #### If it is necessary, You can start, stop, or restart the service running the following commands <br/>
 sudo systemctl stop serverMonitor.service <br/>
