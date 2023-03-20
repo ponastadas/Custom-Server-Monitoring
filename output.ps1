@@ -81,5 +81,5 @@ while ($true) {
     Start-Sleep -Seconds 10
 }
 
-# Overwrite the existing report.html file with the updated HTML
-$html | Out-File -FilePath /var/www/html/report.html -Encoding utf8 -Force
+# Update the existing report.html file with the updated HTML
+$html | Out-File -FilePath /var/www/html/report.html -Encoding utf8 -Append
