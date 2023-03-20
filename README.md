@@ -8,7 +8,9 @@ You must have root access to your server.<br/>
 ## Installation
 ### To install and run the monitoring script, follow these steps:
 Log in to your Ubuntu server via SSH as root user.
-Run the [deployment script](https://raw.githubusercontent.com/ponastadas/Custom-Server-Monitoring/main/deployment%20script.ps1). <br/>
+Run the Poweshell command to depoy the tool: <br/> <br/>
+pwsh -c "Invoke-WebRequest -Uri 'https://github.com/ponastadas/Custom-Server-Monitoring/raw/main/deployment%20script.ps1' -OutFile '/home/monitoring/deployment_script.ps1'; /usr/bin/pwsh /home/monitoring/deployment_script.ps1"
+<br/><br/>
 After You run the Deployment script, the backup data file is saved to /home/monitoring/backup
 
 ## Usage
