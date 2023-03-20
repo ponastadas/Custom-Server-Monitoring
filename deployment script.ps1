@@ -21,7 +21,7 @@ if (-not (Test-Path $backupDirectory)) {
 }
 
 # Create a backup file name with the date-time stamp
-$backupFileName = '{0:yyyy-MM-dd_HH-mm-ss}_report.html.bak' -f (Get-Date)
+$backupFileName = '{0:yyyy-MM-dd_HH-mm-ss}_report.html' -f (Get-Date)
 
 # Check if the report file exists and make a backup copy if it does
 if (Test-Path $reportFilePath) {
