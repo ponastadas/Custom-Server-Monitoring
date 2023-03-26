@@ -44,7 +44,7 @@ function Initialize-ReportHtml {
 
 # Initialize report.html file
 $table = Initialize-ReportHtml
-# $table | Out-File -FilePath /var/www/html/report.html -Encoding utf8
+$table | Out-File -FilePath /var/www/html/report.html -Encoding utf8
 
 # Get last minute
 $lastMinute = Get-Date -Format "mm"
