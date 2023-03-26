@@ -80,13 +80,16 @@ tr:nth-child(even) {
 
     # Get the content of the existing report.html file
     $existingContent = Get-Content -Path /var/www/html/report.html -Raw
-  
+
     # Calculate the position to insert the table data
-    $insertPosition = $existingContent.Length - "</table>".Length
-  
-    # Add the table data to the existing content and close the table tag
+    $insertPosition = $existingContent.LastIndexOf("</tr>") + "</tr>".Length
+
+    # Add the table data to the existing content
     $newContent = $existingContent.Substring(0, $insertPosition) + $tableData + $existingContent.Substring($insertPosition)
-  
+
+    # Add the closing table, body, and html tags
+    $newContent += "</table></body></html>"
+
     # Write the updated content back to the report.html file
     Set-Content -Path /var/www/html/report.html -Value $newContent -Force
     Write-Output "Added new record"
