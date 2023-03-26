@@ -95,8 +95,30 @@ $existingContent = Get-Content -Path /var/www/html/report.html -Raw
 # Calculate the position to insert the table data
 $insertPosition = $existingContent.IndexOf("</table>")
 
+try {
+    # Get the content of the existing report.html file
+    $existingContent = Get-Content -Path /var/www/html/report.html -Raw
+} catch {
+    Write-Error "Failed to read the content of report.html file. Check if the file exists and has the correct permissions."
+    exit 1
+}
+
+if (-not $existingContent) {
+    Write-Error "The content of report.html file is empty or invalid. Make sure the file has the correct format."
+    exit 1
+}
+
+# Calculate the position to insert the table data
+$insertPosition = $existingContent.IndexOf("</table>")
+
+if ($insertPosition -eq -1) {
+    Write-Error "Failed to find </table> in the content of report.html file. Check if the file has the correct format."
+    exit 1
+}
+
 # Add the table data to the existing content and close the table tag
 $newContent = $existingContent.Substring(0, $insertPosition) + $tableData + $existingContent.Substring($insertPosition)
+
 
 
   # Write the updated content back to the report.html file
