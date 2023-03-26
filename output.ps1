@@ -27,7 +27,7 @@ tr:nth-child(even) {
 }
 </style>
 </head>
-<body><h1>Server Monitoring Report</h1><table id='reportTable'><tr><th>Date</th><th>Time</th><th>CPU usage</th><th>Memory usage</th><th>Private IP</th><th>Public IP</th></tr>
+<body><h1>Server Monitoring Report</h1><table id='reportTable'><tr><th>Date</th><th>Time</th><th>CPU usage</th><th>Memory usage</th><th>Private IP</th><th>Public IP</th></tr>"@
 "@
 }
   
@@ -77,7 +77,7 @@ tr:nth-child(even) {
   
     # Add the data to the existing HTML table
     $tableData = "<tr><td>$date</td><td>$time</td><td>$cpu_usage %</td><td>$mem_usage %</td><td>$private_ip</td><td>$public_ip</td></tr>"
-  
+
     # Get the content of the existing report.html file
     $existingContent = Get-Content -Path /var/www/html/report.html -Raw
   
