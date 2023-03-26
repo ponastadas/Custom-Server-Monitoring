@@ -1,5 +1,5 @@
 function Initialize-ReportHtml {
-return @"
+    return @"
 <html><head><title>Server Monitoring Report</title><style>
 h1{
     margin:20px;
@@ -27,17 +27,7 @@ tr:nth-child(even) {
 }
 </style>
 </head>
-<body>
-<h1>Server Monitoring Report</h1>
-<table id='reportTable'>
-<tr>
-<th>Date</th>
-<th>Time</th>
-<th>CPU usage</th>
-<th>Memory usage</th>
-<th>Private IP</th>
-<th>Public IP</th>
-</tr>
+<body><h1>Server Monitoring Report</h1><table id='reportTable'><tr><th>Date</th><th>Time</th><th>CPU usage</th><th>Memory usage</th><th>Private IP</th><th>Public IP</th></tr>
 "@
 }
   
