@@ -87,16 +87,17 @@ if ($currentHour -eq "00" -and $currentMinute -eq "00" -and $lastMinute -ne $cur
 }
 
   # Add the data to the existing HTML table
-  $tableData = "<tr><td>$date</td><td>$time</td><td>$cpu_usage %</td><td>$mem_usage %</td><td>$private_ip</td><td>$public_ip</td></tr>"
+$tableData = "<tr><td>$date</td><td>$time</td><td>$cpu_usage %</td><td>$memory_usage %</td><td>$private_ip</td><td>$public_ip</td></tr>"
 
-  # Get the content of the existing report.html file
-  $existingContent = Get-Content -Path /var/www/html/report.html -Raw
+# Get the content of the existing report.html file
+$existingContent = Get-Content -Path /var/www/html/report.html -Raw
 
-  # Calculate the position to insert the table data
-  $insertPosition = $existingContent.Length - "</table>".Length
+# Calculate the position to insert the table data
+$insertPosition = $existingContent.IndexOf("</table>")
 
-  # Add the table data to the existing content and close the table tag
-  $newContent = $existingContent.Substring(0, $insertPosition) + $tableData + $existingContent.Substring($insertPosition)
+# Add the table data to the existing content and close the table tag
+$newContent = $existingContent.Substring(0, $insertPosition) + $tableData + $existingContent.Substring($insertPosition)
+
 
   # Write the updated content back to the report.html file
   Set-Content -Path /var/www/html/report.html -Value $newContent -Force
