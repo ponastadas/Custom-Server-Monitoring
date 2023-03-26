@@ -3,11 +3,11 @@ $script_path = "/home/monitoring/output.ps1"
 
 # Download the script and style.css from GitHub
 $output_path = "/home/monitoring/output.ps1"
-$style_url = "https://raw.githubusercontent.com/ponastadas/nn/main/style.css"
+$style_url = "https://raw.githubusercontent.com/ponastadas/Custom-Server-Monitoring/main/style.css"
 $style_path = "/var/www/html/style.css"
 
 try {
-    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ponastadas/nn/main/output.ps1" -OutFile $output_path -ErrorAction Stop
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ponastadas/Custom-Server-Monitoring/main/output.ps1" -OutFile $output_path -ErrorAction Stop
     Invoke-WebRequest -Uri $style_url -OutFile $style_path -ErrorAction Stop
 } catch {
     Write-Error "Error downloading files from GitHub: $_"
