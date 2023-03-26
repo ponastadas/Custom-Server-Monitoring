@@ -1,16 +1,17 @@
-
 # Define the script path
 $script_path = "/home/monitoring/output.ps1"
 
-# Download the script from GitHub
-$url = "https://raw.githubusercontent.com/ponastadas/Custom-Server-Monitoring/main/output.ps1"
+# Download the script and style.css from GitHub
 $output_path = "/home/monitoring/output.ps1"
-Invoke-WebRequest -Uri $url -OutFile $output_path
+$style_url = "https://raw.githubusercontent.com/ponastadas/nn/main/style.css"
+$style_path = "/var/www/html/style.css"
 
-# Install PowerShell if it's not already installed
-if (-not (Get-Command pwsh -ErrorAction SilentlyContinue)) {
-    sudo apt-get update
-    sudo apt-get install -y powershell
+try {
+    Invoke-WebRequest -Uri "https://raw.githubusercontent.com/ponastadas/nn/main/output.ps1" -OutFile $output_path -ErrorAction Stop
+    Invoke-WebRequest -Uri $style_url -OutFile $style_path -ErrorAction Stop
+} catch {
+    Write-Error "Error downloading files from GitHub: $_"
+    Exit 1
 }
 
 # Create the service file
@@ -29,16 +30,50 @@ WantedBy=multi-user.target
 
 # Write the service file to disk
 $service_file_path = "/etc/systemd/system/serverMonitor.service"
-Set-Content -Path $service_file_path -Value $service_file
+try {
+    Set-Content -Path $service_file_path -Value $service_file -ErrorAction Stop
+} catch {
+    Write-Error "Error writing service file to disk: $_"
+    Exit 1
+}
 
 # Reload the systemd daemon and start the service
-sudo systemctl daemon-reload
-sudo systemctl restart serverMonitor.service
+try {
+    sudo systemctl daemon-reload
+    sudo systemctl restart serverMonitor.service
+} catch {
+    Write-Error "Error restarting service: $_"
+    Exit 1
+}
 
 # Verify that the service is running
-$service_status = sudo systemctl status serverMonitor.service
-Write-Host $service_status
+try {
+    $service_status = sudo systemctl status serverMonitor.service
+    Write-Host $service_status
+} catch {
+    Write-Error "Error checking service status: $_"
+    Exit 1
+}
+
+# Create the initial HTML output with table headers and styling
+$html = "<html><head><title>Server Monitoring Report</title><link rel='stylesheet' href='/style.css'></head><body><h1>Server Monitoring Report</h1><table id='reportTable'><tr><th>Date</th><th>Time</th><th>CPU usage</th><th>Memory usage</th><th>Private IP</th><th>Public IP</th></tr>"
+
+# Write the initial HTML output to disk
+try {
+    Set-Content -Path "/var/www/html/report.html" -Value $html -Encoding utf8
+} catch {
+    Write-Error "Error writing report.html file to disk: $_"
+    Exit 1
+}
 
 # Launch the monitoring script
 Write-Output "Launching monitoring script..."
 $monitoring_script = "/home/monitoring/output.ps1"
+try {
+    & pwsh $monitoring_script
+    Write-Output "Monitoring script started"
+
+} catch {
+    Write-Error "Error launching monitoring script: $_"
+    Exit 1
+}
