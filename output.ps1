@@ -27,9 +27,10 @@ tr:nth-child(even) {
 }
 </style>
 </head>
-<body><h1>Server Monitoring Report</h1><table id='reportTable'><tr><th>Date</th><th>Time</th><th>CPU usage</th><th>Memory usage</th><th>Private IP</th><th>Public IP</th></tr>"@
+<body><h1>Server Monitoring Report</h1><table id='reportTable'><tr><th>Date</th><th>Time</th><th>CPU usage</th><th>Memory usage</th><th>Private IP</th><th>Public IP</th></tr>
 "@
 }
+
   
   # Initialize report.html file
   $table = Initialize-ReportHtml
