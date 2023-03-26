@@ -81,18 +81,16 @@ tr:nth-child(even) {
     # Get the content of the existing report.html file
     $existingContent = Get-Content -Path /var/www/html/report.html -Raw
 
-    # Calculate the position to insert the table data
-    $insertPosition = $existingContent.LastIndexOf("</tr>") + "</tr>".Length
+    # Split the content by the closing table tag
+    $contentParts = $existingContent -split "</table>"
 
-    # Add the table data to the existing content
-    $newContent = $existingContent.Substring(0, $insertPosition) + $tableData + $existingContent.Substring($insertPosition)
-
-    # Add the closing table, body, and html tags
-    $newContent += "</table></body></html>"
+    # Add the table data to the first part and then join the parts with the closing table tag
+    $newContent = $contentParts[0] + $tableData + "</table>" + $contentParts[1]
 
     # Write the updated content back to the report.html file
     Set-Content -Path /var/www/html/report.html -Value $newContent -Force
     Write-Output "Added new record"
+
   
     # Delete files older than 10 days
     $archiveFolder = "/home/monitoring/archive"
