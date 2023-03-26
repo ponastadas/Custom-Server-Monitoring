@@ -31,7 +31,14 @@ function Initialize-ReportHtml {
 <body>
 <h1>Server Monitoring Report</h1>
 <table id='reportTable'>
-
+<tr>
+<th>Date</th>
+<th>Time</th>
+<th>CPU usage</th>
+<th>Memory usage</th>
+<th>Private IP</th>
+<th>Public IP</th>
+</tr>
 "@
 }
 
