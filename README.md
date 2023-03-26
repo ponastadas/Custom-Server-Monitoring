@@ -28,4 +28,30 @@ sudo systemctl stop serverMonitor.service <br/>
 sudo systemctl start serverMonitor.service <br/>
 sudo systemctl restart serverMonitor.service <br/>
 
+## Apache installation guide:
+Update the package list by running the following command: <br/>
+sudo apt update <br/>
+Install the Apache web server using the following command:<br/>
+sudo apt install apache2<br/>
+Once the installation is complete, start the Apache service by running the following command:<br/>
+sudo systemctl start apache2<br/>
+Check the status of the Apache service by running the following command:<br/>
+sudo systemctl status apache2<br/>
+By default, Apache listens on port 80. To change the default port to 8080, open the Apache configuration file using the following command:<br/>
+sudo nano /etc/apache2/ports.conf<br/>
+Replace the following line with 'Listen 8080'<br/>
+Listen 80<br/>
+Save the changes and exit the text editor.<br/>
+Restart the Apache service for the changes to take effect:<br/>
+sudo systemctl restart apache2<br/>
+Check if Apache is listening on port 8080 by running the following command:<br/>
+sudo netstat -tuln | grep 8080<br/>
+If you want to allow incoming traffic on port 8080 (which Apache is now listening on) through the firewall, you can use the following commands:<br>
+sudo ufw allow 8080/tcp <br/>
+Verify the rule has been added by running:<br/>
+sudo ufw status <br/>
+You should see a message like "8080/tcp ALLOW Anywhere"
+
+
+
 
