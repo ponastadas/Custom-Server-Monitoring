@@ -92,19 +92,13 @@ if ($currentHour -eq "00" -and $currentMinute -eq "00" -and $lastMinute -ne $cur
   # Get the content of the existing report.html file
   $existingContent = Get-Content -Path /var/www/html/report.html -Raw
 
-  
- # Add the data to the existing HTML table
- $tableData = "<tr><td>$date</td><td>$time</td><td>$cpu_usage %</td><td>$mem_usage %</td><td>$private_ip</td><td>$public_ip</td></tr>"
+  # Replace the table closing tag with the new table data and add the table closing tag after the new data
+  $newContent = $existingContent.Replace("</table>", $tableData + "</table>")
 
- # Get the content of the existing report.html file
- $existingContent = Get-Content -Path /var/www/html/report.html -Raw
+  # Write the updated content back to the report.html file
+  Set-Content -Path /var/www/html/report.html -Value $newContent -Force
+  Write-Output "Added new record"
 
- # Replace the table closing tag with the new table data and add the table closing tag after the new data
- $newContent = $existingContent.Replace("</table>", $tableData + "</table>")
-
- # Write the updated content back to the report.html file
- Set-Content -Path /var/www/html/report.html -Value $newContent -Force
- Write-Output "Added new record"
 
   # Delete files older than 10 days
   $archiveFolder = "/home/monitoring/archive"
