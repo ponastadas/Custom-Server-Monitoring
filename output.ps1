@@ -76,31 +76,16 @@ tr:nth-child(even) {
   }
   
     # Add the data to the existing HTML table
-    #$tableData = "<tr><td>$date</td><td>$time</td><td>$cpu_usage %</td><td>$mem_usage %</td><td>$private_ip</td><td>$public_ip</td></tr>"
-
-    # Get the content of the existing report.html file
-  #  $existingContent = Get-Content -Path /var/www/html/report.html -Raw
-
-    # Split the content by the closing table tag
-   # $contentParts = $existingContent -split "</table>"
-
-    # Add the table data to the first part and then join the parts with the closing table tag
-  #  $newContent = $contentParts[0] + $tableData + "</table>" + $contentParts[1]
-
-    # Write the updated content back to the report.html file
-  #  Set-Content -Path /var/www/html/report.html -Value $newContent -Force
-  #  Write-Output "Added new record"
-    # Add the data to the existing HTML table
     $tableData = "<tr><td>$date</td><td>$time</td><td>$cpu_usage %</td><td>$mem_usage %</td><td>$private_ip</td><td>$public_ip</td></tr>"
 
     # Get the content of the existing report.html file
     $existingContent = Get-Content -Path /var/www/html/report.html -Raw
 
-    # Split the content by the closing table row tag
-    $contentParts = $existingContent -split "</tr>"
+    # Split the content by the closing table tag
+    $contentParts = $existingContent -split "</table>"
 
-    # Add the table data to the first part and then join the parts with the closing table row tag
-    $newContent = $contentParts[0] + $tableData + "</tr>" + $contentParts[1]
+    # Add the table data to the first part and then join the parts with the closing table tag
+    $newContent = $contentParts[0] + $tableData + "</table>" + $contentParts[1]
 
     # Write the updated content back to the report.html file
     Set-Content -Path /var/www/html/report.html -Value $newContent -Force
