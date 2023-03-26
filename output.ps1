@@ -81,13 +81,13 @@ tr:nth-child(even) {
     # Get the content of the existing report.html file
     $existingContent = Get-Content -Path /var/www/html/report.html -Raw
   
-    # Use regular expression to insert the new table data before the closing table tag
-    $newContent = [regex]::Replace($existingContent, '(</table>)', ($tableData + '$1'))
+    # Use the -replace operator to insert the new table data before the closing table tag
+    $newContent = $existingContent -replace '(</table>)', ($tableData + '`$1')
   
     # Write the updated content back to the report.html file
     Set-Content -Path /var/www/html/report.html -Value $newContent -Force
     Write-Output "Added new record"
-  
+    
     # Delete files older than 10 days
     $archiveFolder = "/home/monitoring/archive"
     $limit = (Get-Date).AddDays(-10)
