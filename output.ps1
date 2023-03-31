@@ -36,8 +36,9 @@ tr:nth-child(even) {
   $table | Out-File -FilePath /var/www/html/report.html -Encoding utf8
   
   # Get last minute
-  $lastMinute = Get-Date -Format "mm"
-  
+  #$lastMinute = Get-Date -Format "mm"
+  # Get the current day value
+    $lastDay = Get-Date -Format "dd"
   # Loop to monitor server data
   while ($true) {
     # Get the date and time
@@ -57,23 +58,22 @@ tr:nth-child(even) {
     # Get the public IP address
     $public_ip = (Invoke-WebRequest -Uri 'https://api.ipify.org?format=text').Content
   
-  # Check if it's midnight and move the report.html file to the archive folder
-  $currentHour = Get-Date -Format "HH"
-  $currentMinute = Get-Date -Format "mm"
-  if ($currentHour -eq "00" -and $currentMinute -eq "00" -and $lastMinute -ne $currentMinute) {
-    $archiveFolder = "/home/monitoring/archive"
-    if (!(Test-Path -Path $archiveFolder -PathType Container)) {
-      New-Item -ItemType Directory -Path $archiveFolder
+    # Check if the date has changed and move the report.html file to the archive folder
+    $currentDay = Get-Date -Format "dd"
+    if ($currentDay -ne $lastDay) {
+      $archiveFolder = "/home/monitoring/archive"
+      if (!(Test-Path -Path $archiveFolder -PathType Container)) {
+        New-Item -ItemType Directory -Path $archiveFolder
+      }
+      $timestamp = "{0:yyyy-MM-dd_HH-mm-ss}" -f (Get-Date)
+      $archiveFilePath = "$archiveFolder/report_$timestamp.html"
+      Move-Item -Path /var/www/html/report.html -Destination $archiveFilePath
+      $lastDay = $currentDay
+
+      # Initialize a new report.html file in /var/www/html folder without any previous information
+      $table = Initialize-ReportHtml
+      $table | Out-File -FilePath /var/www/html/report.html -Encoding utf8
     }
-    $timestamp = "{0:yyyy-MM-dd_HH-mm-ss}" -f (Get-Date)
-    $archiveFilePath = "$archiveFolder/report_$timestamp.html"
-    Move-Item -Path /var/www/html/report.html -Destination $archiveFilePath
-    $lastMinute = $currentMinute
-  
-    # Initialize a new report.html file in /var/www/html folder without any previous information
-    $table = Initialize-ReportHtml
-    $table | Out-File -FilePath /var/www/html/report.html -Encoding utf8
-  }
   
     # Add the data to the existing HTML table
     $tableData = "<tr><td>$date</td><td>$time</td><td>$cpu_usage %</td><td>$mem_usage %</td><td>$private_ip</td><td>$public_ip</td></tr>"
