@@ -14,6 +14,19 @@ try {
     Exit 1
 }
 
+# Move the existing report.html to archive if it exists
+$report_html_path = "/var/www/html/report.html"
+$archive_folder = "/home/monitoring/archive"
+$timestamp = "{0:yyyy-MM-dd_HH-mm-ss}" -f (Get-Date)
+$archive_file_path = "$archive_folder/report_$timestamp.html"
+
+if (Test-Path -Path $report_html_path) {
+    if (!(Test-Path -Path $archive_folder -PathType Container)) {
+        New-Item -ItemType Directory -Path $archive_folder
+    }
+    Move-Item -Path $report_html_path -Destination $archive_file_path
+}
+
 # Create the service file
 $service_file = @"
 [Unit]
@@ -70,7 +83,8 @@ try {
 Write-Output "Launching monitoring script..."
 $monitoring_script = "/home/monitoring/output.ps1"
 try {
-    & pwsh $monitoring_script
+    # Start the monitoring script as a background job
+    Start-Job -ScriptBlock { & pwsh $using:monitoring_script }
     Write-Output "Monitoring script started"
 
 } catch {
